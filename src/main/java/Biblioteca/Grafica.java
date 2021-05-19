@@ -13,7 +13,9 @@ public class Grafica extends JFrame implements ActionListener
     private JLabel ISBN = new JLabel("Codice ISBN:");
     private JLabel titolo = new JLabel("Titolo:");
     private JLabel prezzo = new JLabel("Prezzo:");
-    private JLabel stampaL = new JLabel("");
+    private JLabel stampaCodice = new JLabel("");
+    private JLabel stampaCopie = new JLabel("");
+    private JLabel stampaTotali = new JLabel("");
     private JTextField inserimentoISBN = new JTextField();
     private JTextField inserimentoTitolo = new JTextField();
     private JTextField inserimentoPrezzo = new JTextField();
@@ -26,7 +28,7 @@ public class Grafica extends JFrame implements ActionListener
         p1.setLayout(null);
         this.setTitle("Libreria");                              
         this.setVisible(true);                                  
-        this.setLocationRelativeTo(null);                       
+        this.setLocation(400, 250);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
         this.setSize(400, 400);                                 
         this.setResizable(false);
@@ -37,7 +39,9 @@ public class Grafica extends JFrame implements ActionListener
         ISBN.setBounds(40, 30 + y, 150, 20);
         titolo.setBounds(40, 70 + y, 150, 20);
         prezzo.setBounds(40, 110 + y, 150, 20);
-        stampaL.setBounds(160, 180 + y, 150, 20);
+        stampaCodice.setBounds(40, 180 + y, 200, 20);
+        stampaCopie.setBounds(40, 190 + y, 300, 20);
+        stampaTotali.setBounds(40, 200 + y, 200, 20);
         inserimentoISBN.setBounds(120, 30 + y, 150, 20);
         inserimentoTitolo.setBounds(120, 70 + y, 150, 20);
         inserimentoPrezzo.setBounds(120, 110 + y, 150, 20);
@@ -53,7 +57,9 @@ public class Grafica extends JFrame implements ActionListener
         p1.add(inserimentoPrezzo);
         p1.add(bottoneConferma);
         p1.add(bottoneAnnulla);
-        p1.add(stampaL);
+        p1.add(stampaCodice);
+        p1.add(stampaCopie);
+        p1.add(stampaTotali);
         c.add(p1);
         
         bottoneConferma.addActionListener(this);
@@ -67,7 +73,8 @@ public class Grafica extends JFrame implements ActionListener
         String isbn = "";
         String titolo = "";
         String prezzo = "";
-        String stampa = "";
+        int copieLibro = 0;
+        int libriTotali = 0;
         Libreria libreria = new Libreria();
         
         switch(evento)
@@ -82,8 +89,13 @@ public class Grafica extends JFrame implements ActionListener
                 inserimentoPrezzo.setText("");
                 
                 Libro libro = new Libro(Integer.valueOf(isbn), Integer.valueOf(prezzo), titolo);
-                stampa = libreria.AggiungiLibro(libro);
-                stampaL.setText(stampa);
+                libreria.AggiungiLibro(libro);
+                copieLibro = libreria.CopieLibro(libro);
+                libriTotali = libreria.numeroTotaliDeiLibri();
+                stampaCodice.setText("Codice Libro Inserito: " + libro.getCodiceISBN());
+                stampaCopie.setText("Copie del Libro Presenti In Libreria: " + copieLibro);
+                stampaTotali.setText("Libri Totali: " + libriTotali);
+                
                 break;
                 
             case "Annulla":
